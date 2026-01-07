@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import { Header } from './components/Header';
 import { EntryList } from './components/EntryList';
 import { EntryDetail } from './components/EntryDetail';
 import { fetchEntries, fetchEntry } from './api/notion';
+import { useTheme } from './hooks/useTheme';
 import type { Entry, EntryDetail as EntryDetailType } from './types/entry';
 
 function App() {
@@ -12,6 +14,8 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  
+  const { isDark, toggleTheme } = useTheme();
 
   useEffect(() => {
     loadEntries();
@@ -43,88 +47,70 @@ function App() {
       setDetailLoading(false);
     }
     // 모바일에서 사이드바 닫기
-    if (window.innerWidth < 768) {
+    if (window.innerWidth < 1024) {
       setSidebarOpen(false);
     }
   }
 
   return (
-    <div className="h-screen flex bg-white">
-      {/* 사이드바 */}
-      <aside
-        className={`${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } fixed md:relative md:translate-x-0 z-30 w-80 h-full bg-gray-50 border-r border-gray-200 transition-transform duration-200 flex flex-col`}
-      >
-        {/* 헤더 */}
-        <header className="p-4 border-b border-gray-200">
-          <h1 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-            <span>📔</span> 나의 기록
-          </h1>
-        </header>
+    <div className="vp-layout flex flex-col h-screen">
+      <Header 
+        onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+        onToggleDark={toggleTheme}
+        isDark={isDark}
+      />
 
-        {/* 목록 */}
-        <div className="flex-1 overflow-y-auto">
-          {loading ? (
-            <div className="flex items-center justify-center h-32">
-              <div className="animate-spin w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full" />
-            </div>
-          ) : error ? (
-            <div className="p-4 text-center">
-              <p className="text-red-500 text-sm">{error}</p>
-              <button
-                onClick={loadEntries}
-                className="mt-2 text-sm text-blue-500 hover:underline"
-              >
-                다시 시도
-              </button>
-            </div>
-          ) : (
-            <EntryList
-              entries={entries}
-              selectedId={selectedId}
-              onSelect={handleSelectEntry}
-            />
-          )}
-        </div>
+      <div className="vp-main-layout flex flex-1 overflow-hidden">
+        <aside className={`vp-sidebar ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed lg:relative lg:translate-x-0 z-30 h-full transition-transform duration-200 flex flex-col border-r`}>
+          <div className="vp-sidebar-header px-4 lg:px-6 py-4 border-b">
+            <h2 className="text-xs lg:text-sm font-semibold uppercase tracking-wider">
+              기록 목록
+            </h2>
+          </div>
 
-        {/* 새로고침 버튼 */}
-        <div className="p-4 border-t border-gray-200">
-          <button
-            onClick={loadEntries}
-            disabled={loading}
-            className="w-full py-2 px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm transition-colors disabled:opacity-50"
-          >
-            {loading ? '불러오는 중...' : '새로고침'}
-          </button>
-        </div>
-      </aside>
+          <div className="flex-1 overflow-y-auto px-2 lg:px-3 py-2">
+            {loading ? (
+              <div className="flex items-center justify-center h-32">
+                <div className="vp-spinner animate-spin w-6 h-6 border-2 border-t-transparent rounded-full" />
+              </div>
+            ) : error ? (
+              <div className="p-4 text-center">
+                <p className="text-sm mb-2">{error}</p>
+                <button onClick={loadEntries} className="vp-btn-link text-sm font-medium">
+                  다시 시도
+                </button>
+              </div>
+            ) : (
+              <EntryList
+                entries={entries}
+                selectedId={selectedId}
+                onSelect={handleSelectEntry}
+              />
+            )}
+          </div>
 
-      {/* 모바일 오버레이 */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/20 z-20 md:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
+          <div className="vp-sidebar-footer px-4 lg:px-6 py-4 border-t">
+            <button
+              onClick={loadEntries}
+              disabled={loading}
+              className="vp-btn-primary w-full py-2 px-4 rounded-md text-sm font-medium disabled:opacity-50 border"
+            >
+              {loading ? '불러오는 중...' : '새로고침'}
+            </button>
+          </div>
+        </aside>
 
-      {/* 메인 컨텐츠 */}
-      <main className="flex-1 overflow-y-auto">
-        {/* 모바일 헤더 */}
-        <div className="md:hidden sticky top-0 bg-white border-b border-gray-200 p-4 flex items-center gap-4">
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className="p-2 hover:bg-gray-100 rounded-lg"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-          <h1 className="font-semibold">나의 기록</h1>
-        </div>
+        {sidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black/50 z-20 lg:hidden"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
 
-        <EntryDetail entry={selectedEntry} loading={detailLoading} />
-      </main>
+        <main className="flex-1 overflow-y-auto">
+          <EntryDetail entry={selectedEntry} loading={detailLoading} />
+        </main>
+      </div>
     </div>
   );
 }

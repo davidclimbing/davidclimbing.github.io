@@ -1,1 +1,398 @@
 @import "tailwindcss";
+
+:root {
+  /* VitePress Brand Colors - Green */
+  --vp-c-brand: #42b883;
+  --vp-c-brand-light: #42d392;
+  --vp-c-brand-lighter: #35eb9a;
+  --vp-c-brand-dark: #33a06f;
+  --vp-c-brand-darker: #155f3e;
+  
+  /* Gray Scale */
+  --vp-c-gray: #8e8e93;
+  --vp-c-gray-light-1: #aeaeb2;
+  --vp-c-gray-light-2: #c7c7cc;
+  --vp-c-gray-light-3: #d1d1d6;
+  --vp-c-gray-light-4: #e5e5ea;
+  --vp-c-gray-light-5: #f2f2f7;
+  
+  /* Background Colors */
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-soft: #f9f9f9;
+  --vp-c-bg-mute: #f1f1f1;
+  --vp-c-bg-alt: #f8f8f8;
+  --vp-c-brand-soft: #e3f9ee;
+  
+  /* Text Colors */
+  --vp-c-text-1: rgba(60, 60, 67);
+  --vp-c-text-2: rgba(60, 60, 67, 0.78);
+  --vp-c-text-3: rgba(60, 60, 67, 0.56);
+  
+  /* Border & Divider */
+  --vp-c-divider: rgba(60, 60, 67, 0.12);
+  --vp-c-border: #c2c2c4;
+  
+  /* Component Backgrounds */
+  --vp-c-gutter: #e2e2e3;
+  
+  /* Shadows */
+  --vp-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --vp-shadow-2: 0 3px 12px rgba(0, 0, 0, 0.07), 0 1px 4px rgba(0, 0, 0, 0.07);
+  --vp-shadow-3: 0 12px 32px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.08);
+  
+  /* Layout */
+  --vp-nav-height: 64px;
+  --vp-sidebar-width: 272px;
+}
+
+.dark {
+  /* VitePress Brand Colors (Dark) - Green */
+  --vp-c-brand: #42d392;
+  --vp-c-brand-light: #35eb9a;
+  --vp-c-brand-lighter: #96fbc4;
+  --vp-c-brand-dark: #42b883;
+  --vp-c-brand-darker: #33a06f;
+  
+  /* Gray Scale (Dark) */
+  --vp-c-gray: #8e8e93;
+  --vp-c-gray-light-1: #636366;
+  --vp-c-gray-light-2: #48484a;
+  --vp-c-gray-light-3: #3a3a3c;
+  --vp-c-gray-light-4: #2c2c2e;
+  --vp-c-gray-light-5: #1c1c1e;
+  
+  /* Background Colors (Dark) */
+  --vp-c-bg: #1b1b1f;
+  --vp-c-bg-soft: #252529;
+  --vp-c-bg-mute: #2f2f32;
+  --vp-c-bg-alt: #161618;
+  --vp-c-brand-soft: rgba(66, 184, 131, 0.14);
+  
+  /* Text Colors (Dark) */
+  --vp-c-text-1: rgba(255, 255, 245, 0.86);
+  --vp-c-text-2: rgba(235, 235, 245, 0.6);
+  --vp-c-text-3: rgba(235, 235, 245, 0.38);
+  
+  /* Border & Divider (Dark) */
+  --vp-c-divider: rgba(84, 84, 88, 0.65);
+  --vp-c-border: #3c3f44;
+  
+  /* Component Backgrounds (Dark) */
+  --vp-c-gutter: #000000;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  background-color: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  transition: background-color 0.25s, color 0.25s;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* VitePress Content Container */
+.vp-doc {
+  line-height: 1.7;
+  font-size: 16px;
+  color: var(--vp-c-text-1);
+}
+
+.vp-content h1,
+.vp-content h2,
+.vp-content h3,
+.vp-content h4,
+.vp-content h5,
+.vp-content h6 {
+  position: relative;
+  font-weight: 600;
+  outline: none;
+  color: var(--vp-c-text-1);
+}
+
+.vp-content h1 {
+  letter-spacing: -0.02em;
+  line-height: 40px;
+  font-size: 32px;
+  margin: 48px 0 16px;
+}
+
+.vp-content h2 {
+  margin: 48px 0 16px;
+  border-top: 1px solid var(--vp-c-divider);
+  padding-top: 24px;
+  letter-spacing: -0.02em;
+  line-height: 32px;
+  font-size: 24px;
+}
+
+.vp-content h3 {
+  margin: 32px 0 16px;
+  letter-spacing: -0.01em;
+  line-height: 28px;
+  font-size: 20px;
+}
+
+.vp-content p {
+  margin: 16px 0;
+  line-height: 1.7;
+}
+
+.vp-content a {
+  color: var(--vp-c-brand);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.25s;
+}
+
+.vp-content a:hover {
+  color: var(--vp-c-brand-light);
+}
+
+.vp-content code {
+  font-size: 0.875em;
+  color: var(--vp-c-brand-dark);
+  background-color: var(--vp-c-bg-mute);
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+}
+
+.vp-content pre {
+  background-color: var(--vp-c-bg-alt);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 28px 0;
+  overflow-x: auto;
+  line-height: 1.4;
+}
+
+.vp-content pre code {
+  background-color: transparent;
+  padding: 0;
+  color: var(--vp-c-text-1);
+  font-size: 14px;
+}
+
+.vp-content blockquote {
+  border-left: 4px solid var(--vp-c-divider);
+  padding-left: 16px;
+  margin: 16px 0;
+  color: var(--vp-c-text-2);
+  transition: border-color 0.25s;
+}
+
+.vp-content ul,
+.vp-content ol {
+  padding-left: 1.25rem;
+  margin: 16px 0;
+}
+
+.vp-content li {
+  margin: 8px 0;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* VitePress Header */
+.vp-header {
+  height: var(--vp-nav-height);
+  border-color: var(--vp-c-divider);
+}
+
+.vp-header-light {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.vp-header-dark {
+  background-color: rgba(27, 27, 31, 0.9);
+}
+
+.vp-header-container {
+  max-width: 100%;
+}
+
+.vp-header-logo {
+  color: var(--vp-c-text-1);
+}
+
+.vp-header-menu-button {
+  color: var(--vp-c-text-1);
+}
+
+.vp-header-menu-button:hover {
+  background-color: var(--vp-c-bg-soft);
+}
+
+/* Dark mode toggle */
+.vp-toggle-dark {
+  background-color: var(--vp-c-gray-light-3);
+}
+
+.dark .vp-toggle-dark {
+  background-color: var(--vp-c-brand);
+}
+
+.vp-toggle-icon {
+  color: var(--vp-c-gray);
+}
+
+.dark .vp-toggle-icon {
+  color: var(--vp-c-brand);
+}
+
+/* Sidebar */
+.vp-sidebar {
+  width: var(--vp-sidebar-width);
+  background-color: var(--vp-c-bg);
+  border-color: var(--vp-c-divider);
+}
+
+.vp-sidebar-header {
+  border-color: var(--vp-c-divider);
+  color: var(--vp-c-text-2);
+}
+
+.vp-sidebar-footer {
+  border-color: var(--vp-c-divider);
+}
+
+/* Entry list items */
+.vp-entry-item {
+  transition: background-color 0.2s;
+}
+
+.vp-entry-item:hover {
+  background-color: var(--vp-c-bg-soft);
+}
+
+.vp-entry-item-active {
+  background-color: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand);
+}
+
+.vp-entry-item-active:hover {
+  background-color: var(--vp-c-brand-soft);
+}
+
+.vp-entry-title {
+  color: var(--vp-c-text-1);
+}
+
+.vp-entry-item-active .vp-entry-title {
+  color: var(--vp-c-brand);
+}
+
+.vp-entry-date {
+  color: var(--vp-c-text-2);
+}
+
+.vp-entry-tag {
+  background-color: var(--vp-c-bg-mute);
+  color: var(--vp-c-text-2);
+  font-size: 11px;
+}
+
+.vp-entry-item-active .vp-entry-tag {
+  background-color: var(--vp-c-brand);
+  color: white;
+}
+
+/* Loading spinner */
+.vp-spinner {
+  border-color: var(--vp-c-brand);
+  border-top-color: transparent;
+}
+
+/* Buttons */
+.vp-btn-primary {
+  background-color: transparent;
+  color: var(--vp-c-brand);
+  border-color: var(--vp-c-brand);
+  transition: all 0.2s;
+}
+
+.vp-btn-primary:hover:not(:disabled) {
+  background-color: var(--vp-c-brand);
+  color: white;
+}
+
+.vp-btn-link {
+  color: var(--vp-c-brand);
+  transition: color 0.2s;
+}
+
+.vp-btn-link:hover {
+  color: var(--vp-c-brand-light);
+}
+
+/* Empty state */
+.vp-empty {
+  color: var(--vp-c-text-2);
+}
+
+.vp-empty-icon {
+  color: var(--vp-c-text-3);
+}
+
+/* Article */
+.vp-article-container {
+  max-width: 768px;
+}
+
+.vp-article-title {
+  color: var(--vp-c-text-1);
+  font-size: 40px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.vp-article-date {
+  color: var(--vp-c-text-2);
+}
+
+.vp-article-tag {
+  background-color: var(--vp-c-bg-soft);
+  color: var(--vp-c-brand);
+}
+
+/* Block content */
+.vp-block-text {
+  color: var(--vp-c-text-1);
+}
+
+.vp-block-quote {
+  border-color: var(--vp-c-divider);
+  color: var(--vp-c-text-2);
+}
+
+.vp-block-code {
+  background-color: var(--vp-c-bg-alt);
+  color: var(--vp-c-text-1);
+}
+
+.vp-block-image {
+  box-shadow: var(--vp-shadow-2);
+}
+
+.vp-block-divider {
+  border-color: var(--vp-c-divider);
+}
+
+.vp-block-caption {
+  color: var(--vp-c-text-2);
+}
+
+/* Main layout */
+.vp-main-layout {
+  margin-top: var(--vp-nav-height);
+  background-color: var(--vp-c-bg);
+}
+
+/* Layout container alignment */
+.vp-layout {
+  background-color: var(--vp-c-bg);
+  min-height: 100vh;
+}

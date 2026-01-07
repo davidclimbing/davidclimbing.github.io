@@ -9,7 +9,7 @@ interface EntryListProps {
 export function EntryList({ entries, selectedId, onSelect }: EntryListProps) {
   if (entries.length === 0) {
     return (
-      <div className="p-8 text-center text-gray-500">
+      <div className="vp-empty p-8 text-center">
         <p>아직 기록이 없어요</p>
         <p className="text-sm mt-2">노션에서 새 기록을 추가해보세요</p>
       </div>
@@ -17,44 +17,41 @@ export function EntryList({ entries, selectedId, onSelect }: EntryListProps) {
   }
 
   return (
-    <div className="divide-y divide-gray-100">
-      {entries.map((entry) => (
-        <button
-          key={entry.id}
-          onClick={() => onSelect(entry.id)}
-          className={`w-full p-4 text-left transition-colors hover:bg-gray-50 ${
-            selectedId === entry.id ? 'bg-blue-50 border-l-4 border-blue-500' : ''
-          }`}
-        >
-          <div className="flex items-start gap-3">
-            <span className="text-2xl">{entry.emoji}</span>
-            <div className="flex-1 min-w-0">
-              <h3 className="font-medium text-gray-900 truncate">{entry.title}</h3>
-              {entry.date && (
-                <time className="text-sm text-gray-500">
-                  {formatDate(entry.date)}
-                </time>
-              )}
-              {entry.preview && (
-                <p className="text-sm text-gray-600 mt-1 line-clamp-2">{entry.preview}</p>
-              )}
-              {entry.tags.length > 0 && (
-                <div className="flex flex-wrap gap-1 mt-2">
-                  {entry.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2 py-0.5 text-xs bg-gray-100 text-gray-600 rounded-full"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
+    <nav className="space-y-1">
+      {entries.map((entry) => {
+        const isActive = selectedId === entry.id;
+        return (
+          <button
+            key={entry.id}
+            onClick={() => onSelect(entry.id)}
+            className={`vp-entry-item ${isActive ? 'vp-entry-item-active' : ''} w-full block px-3 py-2 text-left rounded-md`}
+          >
+            <div className="flex items-start gap-2">
+              <span className="text-base mt-0.5">{entry.emoji}</span>
+              <div className="flex-1 min-w-0">
+                <h3 className="vp-entry-title font-medium truncate text-sm leading-tight">
+                  {entry.title}
+                </h3>
+                {entry.date && (
+                  <time className="vp-entry-date text-xs mt-1 block">
+                    {formatDate(entry.date)}
+                  </time>
+                )}
+                {entry.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1 mt-1.5">
+                    {entry.tags.slice(0, 2).map((tag) => (
+                      <span key={tag} className="vp-entry-tag px-1.5 py-0.5 text-xs rounded">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        </button>
-      ))}
-    </div>
+          </button>
+        );
+      })}
+    </nav>
   );
 }
 
