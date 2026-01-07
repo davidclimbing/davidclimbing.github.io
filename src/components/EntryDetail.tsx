@@ -143,6 +143,39 @@ function BlockRenderer({ block }: { block: Block }) {
     case 'divider':
       return <hr className="vp-block-divider my-8 border-t border-[var(--vp-c-divider)]" />;
     
+    case 'link_preview':
+    case 'bookmark':
+      return (
+        <a
+          href={block.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="vp-link-card block my-4 p-4 rounded-lg border border-[var(--vp-c-divider)] hover:border-[var(--vp-c-brand)] transition-colors"
+        >
+          <div className="flex items-center gap-2">
+            <svg className="w-4 h-4 text-[var(--vp-c-text-2)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+            <span className="vp-link text-sm truncate">{block.url}</span>
+          </div>
+          {'caption' in block && block.caption && (
+            <p className="text-xs text-[var(--vp-c-text-2)] mt-2">{block.caption}</p>
+          )}
+        </a>
+      );
+    
+    case 'embed':
+      return (
+        <div className="vp-embed my-6">
+          <iframe
+            src={block.url}
+            className="w-full rounded-lg border border-[var(--vp-c-divider)]"
+            style={{ minHeight: '400px' }}
+            allowFullScreen
+          />
+        </div>
+      );
+    
     case 'unsupported':
       // 지원하지 않는 블록 타입은 조용히 무시
       return null;

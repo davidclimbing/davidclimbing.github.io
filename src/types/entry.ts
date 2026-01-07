@@ -22,4 +22,7 @@ export type Block =
   | { type: 'code'; text: string; language: string }
   | { type: 'image'; url: string; caption: string }
   | { type: 'divider' }
+  | { type: 'link_preview'; url: string }
+  | { type: 'bookmark'; url: string; caption: string }
+  | { type: 'embed'; url: string }
   | { type: 'unsupported'; originalType: string };
