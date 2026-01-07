@@ -1,12 +1,13 @@
+import { Link } from 'react-router-dom';
 import type { Entry } from '../types/entry';
 
 interface EntryListProps {
   entries: Entry[];
   selectedId: string | null;
-  onSelect: (id: string) => void;
+  onSelect?: (id: string) => void;
 }
 
-export function EntryList({ entries, selectedId, onSelect }: EntryListProps) {
+export function EntryList({ entries, selectedId }: EntryListProps) {
   if (entries.length === 0) {
     return (
       <div className="vp-empty p-8 text-center">
@@ -21,9 +22,9 @@ export function EntryList({ entries, selectedId, onSelect }: EntryListProps) {
       {entries.map((entry) => {
         const isActive = selectedId === entry.id;
         return (
-          <button
+          <Link
             key={entry.id}
-            onClick={() => onSelect(entry.id)}
+            to={`/entry/${entry.id}`}
             className={`vp-entry-item ${isActive ? 'vp-entry-item-active' : ''} w-full block px-3 py-2 text-left rounded-md`}
           >
             <div className="flex items-start gap-2">
@@ -48,7 +49,7 @@ export function EntryList({ entries, selectedId, onSelect }: EntryListProps) {
                 )}
               </div>
             </div>
-          </button>
+          </Link>
         );
       })}
     </nav>

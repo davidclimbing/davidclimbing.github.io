@@ -1,6 +1,5 @@
 import type { Entry, EntryDetail } from '../types/entry';
-
-const API_BASE = import.meta.env.VITE_API_URL || 'https://notion-diary-proxy.YOUR_SUBDOMAIN.workers.dev';
+import { API_BASE } from '../constants';
 
 export async function fetchEntries(): Promise<Entry[]> {
   const response = await fetch(`${API_BASE}/api/entries`);
