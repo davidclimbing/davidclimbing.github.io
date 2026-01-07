@@ -385,6 +385,75 @@ html {
   color: var(--vp-c-text-2);
 }
 
+/* Markdown Renderer Styles */
+.vp-markdown-content {
+  line-height: 1.7;
+}
+
+.vp-markdown-content p {
+  margin: 0;
+  line-height: inherit;
+}
+
+.vp-markdown-content > p:last-child {
+  margin-bottom: 0;
+}
+
+/* Inline code in markdown */
+.vp-inline-code {
+  background-color: var(--vp-c-bg-mute);
+  color: var(--vp-c-brand-dark);
+  font-family: 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;
+}
+
+.dark .vp-inline-code {
+  background-color: var(--vp-c-bg-mute);
+  color: var(--vp-c-brand-light);
+}
+
+/* Links in markdown */
+.vp-link {
+  color: var(--vp-c-brand);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.25s, opacity 0.25s;
+}
+
+.vp-link:hover {
+  color: var(--vp-c-brand-light);
+  text-decoration: underline;
+}
+
+/* Code block overrides for Prism */
+.vp-code-block {
+  font-family: 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace !important;
+}
+
+.vp-code-block code {
+  font-family: inherit !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+/* Table styles */
+.vp-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.vp-table-head {
+  background-color: var(--vp-c-bg-soft);
+}
+
+.vp-table-cell {
+  border: 1px solid var(--vp-c-divider);
+}
+
+/* Block paragraph wrapper */
+.vp-block-paragraph .vp-markdown-content p {
+  margin: 0;
+}
+
 /* Main layout */
 .vp-main-layout {
   margin-top: var(--vp-nav-height);

@@ -1,4 +1,7 @@
 import type { EntryDetail as EntryDetailType, Block } from '../types/entry';
+import { MarkdownRenderer } from './MarkdownRenderer';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface EntryDetailProps {
   entry: EntryDetailType | null;
@@ -62,29 +65,64 @@ export function EntryDetail({ entry, loading }: EntryDetailProps) {
 function BlockRenderer({ block }: { block: Block }) {
   switch (block.type) {
     case 'paragraph':
-      return block.text ? <p className="vp-block-text">{block.text}</p> : <br />;
+      // 빈 텍스트는 줄바꿈으로 처리
+      if (!block.text) return <br />;
+      // Markdown 인라인 문법 지원 (볼드, 이탤릭, 링크 등)
+      return (
+        <div className="vp-block-paragraph mb-4">
+          <MarkdownRenderer content={block.text} />
+        </div>
+      );
+    
     case 'h1':
-      return <h1 className="vp-block-text">{block.text}</h1>;
+      return <h1 className="vp-block-text text-3xl font-bold mt-8 mb-4">{block.text}</h1>;
+    
     case 'h2':
-      return <h2 className="vp-block-text">{block.text}</h2>;
+      return <h2 className="vp-block-text text-2xl font-bold mt-6 mb-3">{block.text}</h2>;
+    
     case 'h3':
-      return <h3 className="vp-block-text">{block.text}</h3>;
+      return <h3 className="vp-block-text text-xl font-semibold mt-5 mb-2">{block.text}</h3>;
+    
     case 'bullet':
-      return <li className="vp-block-text ml-6 list-disc mb-2">{block.text}</li>;
+      return (
+        <li className="vp-block-text ml-6 list-disc mb-2">
+          <MarkdownRenderer content={block.text} />
+        </li>
+      );
+    
     case 'number':
-      return <li className="vp-block-text ml-6 list-decimal mb-2">{block.text}</li>;
+      return (
+        <li className="vp-block-text ml-6 list-decimal mb-2">
+          <MarkdownRenderer content={block.text} />
+        </li>
+      );
+    
     case 'quote':
       return (
-        <blockquote className="vp-block-quote border-l-2 pl-4 italic my-4">
-          {block.text}
+        <blockquote className="vp-block-quote border-l-4 border-[var(--vp-c-brand)] pl-4 my-4 italic opacity-90">
+          <MarkdownRenderer content={block.text} />
         </blockquote>
       );
+    
     case 'code':
       return (
-        <pre className="vp-block-code p-4 rounded-lg overflow-x-auto my-4">
-          <code className="text-sm font-mono">{block.text}</code>
-        </pre>
+        <SyntaxHighlighter
+          style={oneDark}
+          language={block.language || 'text'}
+          PreTag="div"
+          className="vp-code-block rounded-lg my-4 !bg-[#282c34]"
+          showLineNumbers={block.text.split('\n').length > 3}
+          customStyle={{
+            margin: '1rem 0',
+            padding: '1rem',
+            fontSize: '0.875rem',
+            borderRadius: '0.5rem',
+          }}
+        >
+          {block.text}
+        </SyntaxHighlighter>
       );
+    
     case 'image':
       return (
         <figure className="my-8">
@@ -92,16 +130,23 @@ function BlockRenderer({ block }: { block: Block }) {
             src={block.url}
             alt={block.caption || ''}
             className="vp-block-image w-full rounded-lg"
+            loading="lazy"
           />
           {block.caption && (
-            <figcaption className="vp-block-caption text-sm text-center mt-3">
+            <figcaption className="vp-block-caption text-sm text-center mt-3 opacity-70">
               {block.caption}
             </figcaption>
           )}
         </figure>
       );
+    
     case 'divider':
-      return <hr className="vp-block-divider my-8 border-t" />;
+      return <hr className="vp-block-divider my-8 border-t border-[var(--vp-c-divider)]" />;
+    
+    case 'unsupported':
+      // 지원하지 않는 블록 타입은 조용히 무시
+      return null;
+    
     default:
       return null;
   }
