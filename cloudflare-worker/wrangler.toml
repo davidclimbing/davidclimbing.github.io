@@ -1,9 +1,0 @@
-name = "notion-diary-proxy"
-main = "worker.js"
-compatibility_date = "2024-01-01"
-
-# 환경변수는 Cloudflare Dashboard에서 설정하세요
-# Settings > Variables > Environment Variables
-# - NOTION_API_KEY
-# - NOTION_DATABASE_ID
-# - ALLOWED_ORIGIN
